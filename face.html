@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名字录入和管理者登录</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+        }
+        .container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #218838;
+        }
+        .admin-button {
+            margin-top: 20px;
+            background-color: #007bff;
+        }
+        .admin-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>输入你的名字</h1>
+    <form id="nameForm">
+        <input type="text" id="nameInput" placeholder="输入你的名字" required>
+        <button type="submit">コース选择</button>
+    </form>
+    <button class="admin-button" onclick="adminLogin()">時間確認</button>
+</div>
+
+<script>
+    document.getElementById('nameForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('nameInput').value;
+        if (name) {
+            // 获取现有的名字列表
+            let names = JSON.parse(localStorage.getItem('names')) || [];
+            // 添加新的名字
+            names.push(name);
+            // 更新本地存储
+            localStorage.setItem('names', JSON.stringify(names));
+            window.location.href = 'success.html?name=' + encodeURIComponent(name); // 将名字传递到 select_option.html
+        }
+    });
+
+    function adminLogin() {
+        // 模拟管理者登录验证
+        const isAuthenticated = true; // 这里可以加入实际的验证逻辑
+        if (isAuthenticated) {
+            window.location.href = 'admin.html'; // 跳转到管理者页面，如 admin.html
+        }
+    }
+</script>
+
+</body>
+</html>

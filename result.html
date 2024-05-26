@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结果页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+        }
+        .info {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>结果页面</h1>
+    <div class="info" id="name"></div>
+    <div class="info" id="startTime"></div>
+    <div class="info" id="duration"></div>
+    <div class="info" id="price"></div>
+    <div class="info" id="endTime"></div>
+    <button onclick="goBack()">返回上一级</button>
+    <button onclick="goToHome()">返回主界面</button>
+</div>
+
+<script>
+    function getQueryParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    const name = getQueryParameter('name');
+    const startTime = new Date(getQueryParameter('startTime'));
+    const duration = parseInt(getQueryParameter('duration'), 10);
+    const price = parseFloat(getQueryParameter('price'));
+
+    const endDate = new Date(startTime.getTime() + duration * 60000); // 增加项目时间（分钟）
+
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+
+    const startTimeStr = '开始时间: ' + startTime.toLocaleTimeString([], timeOptions);
+    const durationStr = '项目时间: ' + duration + ' 分钟';
+    const priceStr = '金额: ' + price + ' 元';
+    const endTimeStr = '结束时间: ' + endDate.toLocaleTimeString([], timeOptions);
+
+    document.getElementById('name').innerText = '姓名: ' + (name ? name : '未提供');
+    document.getElementById('startTime').innerText = startTimeStr;
+    document.getElementById('duration').innerText = durationStr;
+    document.getElementById('price').innerText = priceStr;
+    document.getElementById('endTime').innerText = endTimeStr;
+
+    // 保存数据到本地存储
+    const resultData = { name: name, startTime: startTimeStr, duration: durationStr, price: priceStr, endTime: endTimeStr };
+    let storedResults = JSON.parse(localStorage.getItem('results')) || [];
+    storedResults.push(resultData);
+    localStorage.setItem('results', JSON.stringify(storedResults));
+
+    function goBack() {
+        window.history.back();
+    }
+
+    function goToHome() {
+        window.location.href = 'face.html'; // 假设主界面页面名为 face.html
+    }
+</script>
+
+</body>
+</html>

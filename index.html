@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名字录入和管理者页面</title>
+    <style>
+        /* 样式代码在这里 */
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <!-- 页面内容将在这里动态加载 -->
+</div>
+
+<script>
+    // 页面导航函数
+    function navigateTo(page) {
+        const pages = {
+            'face': 'face.html',
+            'success': 'success.html',
+            'start_time': 'start_time.html',
+            'result': 'result.html',
+            'admin': 'admin.html'
+        };
+
+        window.location.href = pages[page];
+    }
+
+    // 根据当前页面决定加载哪个页面
+    function loadPage() {
+        const currentPage = window.location.pathname.split('/').pop().split('.')[0]; // 获取当前页面的文件名
+        const validPages = ['face', 'success', 'start_time', 'result', 'admin'];
+
+        if (validPages.includes(currentPage)) {
+            fetch(currentPage + '.html') // 加载对应的 HTML 文件
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('app').innerHTML = html; // 将 HTML 内容插入到容器中
+                });
+        } else {
+            navigateTo('face'); // 如果当前页面不在列表中，则默认加载名字录入页面
+        }
+    }
+
+    // 页面加载完毕后加载对应的页面
+    document.addEventListener('DOMContentLoaded', loadPage);
+
+    // 返回上一级页面
+    function goBack() {
+        window.history.back();
+    }
+
+    // 返回到主界面
+    function goToHome() {
+        navigateTo('face');
+    }
+</script>
+
+</body>
+</html>
